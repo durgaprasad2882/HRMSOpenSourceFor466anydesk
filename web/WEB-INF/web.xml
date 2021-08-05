@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            /WEB-INF/applicationContext.xml 
+        </param-value>
+    </context-param>
+    <context-param>
+        <param-name>PhotoPath</param-name>
+        <param-value>/workflow/empphoto/</param-value>
+    </context-param>
+    <context-param>
+        <param-name>ParPath</param-name>
+        <param-value>/workflow/par/</param-value>
+    </context-param>
+    <context-param>
+        <param-name>LeavePath</param-name>
+        <param-value>/workflow/leave/</param-value>
+    </context-param>
+	<context-param>
+        <param-name>payBillXMLDOC</param-name>
+        <param-value>/hrms/payBillXMLDOC/</param-value>
+    </context-param>
+    <context-param>
+        <param-name>agfilePath</param-name>
+        <param-value>C:\\ltaxml\\</param-value>
+    </context-param>
+    <context-param>
+        <param-name>agfileLTABulkPDFPath</param-name>
+        <param-value>/tmp/AGLTA/</param-value>
+    </context-param>
+    <context-param>
+        <param-name>TrainingDocumentPath</param-name>
+        <param-value>/workflow/training/</param-value>
+    </context-param> 
+	<context-param>
+        <param-name>LoanPath</param-name>
+        <param-value>/workflow/loan/</param-value>
+    </context-param>
+    <context-param>
+        <param-name>LoangpfPath</param-name>
+        <param-value>/workflow/loangpf/</param-value>
+    </context-param>
+     <context-param>
+        <param-name>LoanHBAPath</param-name>
+        <param-value>/workflow/loanHBA/</param-value>
+    </context-param>
+	 <context-param>
+        <param-name>AERPath</param-name>
+        <param-value>/aerreport/aerreport/</param-value>
+    </context-param>
+	 
+	<context-param>
+        <param-name>DmpFilePath</param-name>
+        <param-value>/tmp/</param-value>
+    </context-param>
+	 <context-param>
+        <param-name>FileSeparator</param-name>
+        <param-value>/</param-value>
+    </context-param>
+	<context-param>
+        <param-name>FilePath</param-name>
+        <param-value>/workflow/ticket/</param-value>
+    </context-param>
+	
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+	<listener>
+        <listener-class>in.cdac.epramaan.sp.samlconnector.SSOConnectorListener</listener-class>
+    </listener>
+    <servlet>
+        <servlet-name>dispatcher</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+	<servlet>
+        <servlet-name>jaxws-servlet</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSSpringServlet</servlet-class>
+    </servlet>
+	<servlet>
+        <servlet-name>SSOSamlRequestCreator</servlet-name>
+        <servlet-class>hrms.controller.login.SSOSamlRequestCreator</servlet-class>
+    </servlet>
+	<servlet>
+        <servlet-name>SSOSamlResponseConsumer</servlet-name>
+        <servlet-class>hrms.controller.login.SSOSamlResponseConsumer</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>WebCamUpload</servlet-name>
+        <servlet-class>hrms.controller.WebCamUpload</servlet-class>
+    </servlet>
+	<servlet>
+		<servlet-name>CaptchaServlet</servlet-name>
+		<servlet-class>hrms.controller.CaptchaGenServlet</servlet-class>
+	</servlet>  
+	
+    <servlet-mapping>
+        <servlet-name>dispatcher</servlet-name>
+        <url-pattern>*.htm</url-pattern>
+    </servlet-mapping>
+	<servlet-mapping>
+        <servlet-name>jaxws-servlet</servlet-name>
+        <url-pattern>/eQuaterService</url-pattern>
+    </servlet-mapping>
+	<servlet-mapping>
+        <servlet-name>jaxws-servlet</servlet-name>
+        <url-pattern>/EmployeeService</url-pattern>
+    </servlet-mapping>
+	<servlet-mapping>
+        <servlet-name>jaxws-servlet</servlet-name>
+        <url-pattern>/LoginService</url-pattern>
+    </servlet-mapping>
+	<servlet-mapping>
+        <servlet-name>jaxws-servlet</servlet-name>
+        <url-pattern>/TaskService</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>WebCamUpload</servlet-name>
+        <url-pattern>/WebCamUpload</url-pattern>
+    </servlet-mapping>	
+	<servlet-mapping>
+        <servlet-name>SSOSamlRequestCreator</servlet-name>
+        <url-pattern>/ssosamlrequestcreator</url-pattern>
+    </servlet-mapping>
+	<servlet-mapping>
+        <servlet-name>SSOSamlResponseConsumer</servlet-name>
+        <url-pattern>/SSOSamlResponseConsumer</url-pattern>
+    </servlet-mapping>
+	
+  <servlet-mapping>
+    <servlet-name>CaptchaServlet</servlet-name>
+    <url-pattern>/captcha.jpg</url-pattern>
+  </servlet-mapping>
+  
+    <session-config>
+        <session-timeout>
+            20
+        </session-timeout>
+    </session-config>
+    
+    
+	<filter>
+        <filter-name>AddCustomHeaderFilter</filter-name>
+        <filter-class>com.redhat.jboss.support.AddCustomHeaderFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AddCustomHeaderFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+	
+    <!-- Spring Security
+  
+    <filter>  
+        <filter-name>springSecurityFilterChain</filter-name>  
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>  
+    </filter>  
+  
+ <filter-mapping>  
+     <filter-name>springSecurityFilterChain</filter-name>  
+     <url-pattern>/*</url-pattern>  
+ </filter-mapping> 
+    -->  
+    <welcome-file-list>        
+        <welcome-file>redirect.jsp</welcome-file>
+    </welcome-file-list>   
+    
+    <error-page>
+        <exception-type>org.springframework.web.HttpSessionRequiredException</exception-type>
+        <location>/index.htm</location>
+    </error-page>
+    <distributable/>
+</web-app>
